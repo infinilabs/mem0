@@ -265,13 +265,16 @@ def get_default_memory_config():
         }
     elif os.environ.get('PG_HOST') and os.environ.get('PG_PORT'):
         vector_store_provider = "pgvector"
-        vector_store_config.update({
-            "host": os.environ.get('PG_HOST'),
-            "port": int(os.environ.get('PG_PORT')),
-            "dbname": os.environ.get('PG_DB', 'mem0'),
-            "user": os.environ.get('PG_USER', 'mem0'),
-            "password": os.environ.get('PG_PASSWORD', 'mem0')
-        })
+        pg_host = os.environ.get('PG_HOST')
+        pg_port = os.environ.get('PG_PORT')
+        pg_db = os.environ.get('PG_DB', 'mem0')
+        pg_user = os.environ.get('PG_USER', 'mem0')
+        pg_password = os.environ.get('PG_PASSWORD', 'mem0')
+        vector_store_config = {
+            "collection_name": "openmemory",
+            "connection_string": f"host={pg_host} port={pg_port} dbname={pg_db} user={pg_user} password={pg_password} sslmode={os.environ.get('PG_SSLMODE', 'require')}",
+            "embedding_model_dims": int(os.environ.get('PG_EMBEDDING_DIMS', '1536'))
+        }
     elif os.environ.get('MILVUS_HOST') and os.environ.get('MILVUS_PORT'):
         vector_store_provider = "milvus"
         # Construct the full URL as expected by MilvusDBConfig
