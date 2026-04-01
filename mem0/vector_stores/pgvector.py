@@ -94,7 +94,7 @@ class PGVector(VectorStoreBase):
                     # Add sslmode to connection string
                     connection_string = f"{connection_string} sslmode={sslmode}"
         else:
-            connection_string = f"postgresql://{user}:{password}@{host}:{port}/{dbname}"
+            connection_string = f"host={host} port={port} dbname={dbname} user={user} password={password}"
             if sslmode:
                 connection_string = f"{connection_string} sslmode={sslmode}"
         
