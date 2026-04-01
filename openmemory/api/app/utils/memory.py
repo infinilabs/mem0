@@ -313,6 +313,23 @@ def get_default_memory_config():
             "host": os.environ.get('OPENSEARCH_HOST'),
             "port": int(os.environ.get('OPENSEARCH_PORT'))
         })
+    elif os.environ.get('EASYSEARCH_ENDPOINT'):
+        vector_store_provider = "easysearch"
+        from urllib.parse import urlparse
+        parsed = urlparse(os.environ.get('EASYSEARCH_ENDPOINT'))
+        use_ssl = parsed.scheme == 'https'
+        host = parsed.hostname or 'localhost'
+        port = parsed.port or 9200
+        vector_store_config = {
+            "collection_name": "openmemory",
+            "host": host,
+            "port": port,
+            "user": os.environ.get('EASYSEARCH_USER', 'admin'),
+            "password": os.environ.get('EASYSEARCH_PASSWORD', 'admin'),
+            "verify_certs": os.environ.get('EASYSEARCH_VERIFY_CERTS', 'false').lower() == 'true',
+            "use_ssl": use_ssl,
+            "embedding_model_dims": int(os.environ.get('EASYSEARCH_EMBEDDING_DIMS', '1536')),
+        }
     elif os.environ.get('FAISS_PATH'):
         vector_store_provider = "faiss"
         vector_store_config = {

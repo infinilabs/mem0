@@ -181,6 +181,7 @@ class VectorStoreFactory:
         "elasticsearch": "mem0.vector_stores.elasticsearch.ElasticsearchDB",
         "vertex_ai_vector_search": "mem0.vector_stores.vertex_ai_vector_search.GoogleMatchingEngine",
         "opensearch": "mem0.vector_stores.opensearch.OpenSearchDB",
+        "easysearch": "mem0.vector_stores.easysearch.EasysearchDB",
         "supabase": "mem0.vector_stores.supabase.Supabase",
         "weaviate": "mem0.vector_stores.weaviate.Weaviate",
         "faiss": "mem0.vector_stores.faiss.FAISS",

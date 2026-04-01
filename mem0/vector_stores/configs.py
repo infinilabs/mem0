@@ -29,6 +29,7 @@ class VectorStoreConfig(BaseModel):
         "elasticsearch": "ElasticsearchConfig",
         "vertex_ai_vector_search": "GoogleMatchingEngineConfig",
         "opensearch": "OpenSearchConfig",
+        "easysearch": "EasysearchConfig",
         "supabase": "SupabaseConfig",
         "weaviate": "WeaviateConfig",
         "faiss": "FAISSConfig",
