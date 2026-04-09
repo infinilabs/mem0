@@ -313,10 +313,10 @@ def get_default_memory_config():
             "host": os.environ.get('OPENSEARCH_HOST'),
             "port": int(os.environ.get('OPENSEARCH_PORT'))
         })
-    elif os.environ.get('EASYSEARCH_ENDPOINT'):
+    elif os.environ.get('EASYSEARCH_URL'):
         vector_store_provider = "easysearch"
         from urllib.parse import urlparse
-        parsed = urlparse(os.environ.get('EASYSEARCH_ENDPOINT'))
+        parsed = urlparse(os.environ.get('EASYSEARCH_URL'))
         use_ssl = parsed.scheme == 'https'
         host = parsed.hostname or 'localhost'
         port = parsed.port or 9200
