@@ -74,6 +74,7 @@ extras = [
     "sentence-transformers>=5.0.0",
     "elasticsearch>=8.0.0,<9.0.0",
     "opensearch-py>=2.0.0",
+    "easysearch>=0.2.0",
     "fastembed>=0.3.1",
 ]
 test = [
