@@ -7,7 +7,9 @@ try:
     from easysearch.exceptions import NotFoundError
     from easysearch.helpers import bulk
 except ImportError:
-    raise ImportError("Easysearch requires extra dependencies. Install with `pip install easysearch`") from None
+    raise ImportError(
+        "Easysearch requires extra dependencies. Install with `pip install easysearch` or `pip install mem0ai[extras]`"
+    ) from None
 
 from pydantic import BaseModel
 
