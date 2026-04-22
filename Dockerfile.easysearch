@@ -1,0 +1,35 @@
+# Dockerfile for OpenMemory MCP server with Easysearch vector store support.
+# Build context must be the repo root:
+#
+# docker build -t mem0/openmemory-mcp-easysearch -f Dockerfile.easysearch .
+# docker run -d --name openmemory-mcp -v $(pwd)/openmemory/api/.env:/usr/src/openmemory/.env -p 8765:8765 mem0/openmemory-mcp-easysearch
+
+FROM python:3.12-slim
+
+LABEL org.opencontainers.image.name="mem0/openmemory-mcp-easysearch"
+
+# Install build-time OS dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── Step 1: copy the local mem0 package so it can be installed in editable mode ──
+WORKDIR /usr/src/mem0
+COPY pyproject.toml README.md ./
+COPY mem0/ ./mem0/
+
+# ── Step 2: install openmemory/api dependencies ──
+WORKDIR /usr/src/openmemory
+COPY openmemory/api/requirements.txt .
+
+# Install requirements, then replace the PyPI mem0ai with the local branch
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip uninstall -y mem0ai \
+    && pip install --no-cache-dir "/usr/src/mem0[extras]"
+
+# ── Step 3: copy application code ──
+COPY openmemory/api/ .
+
+EXPOSE 8765
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8765"]
